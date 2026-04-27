@@ -1,9 +1,809 @@
-index.html
-<!DOCTYPE html>
-<html>
+index.html<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
 <head>
-  <meta http-equiv="refresh" content="0; url=https://claude.ai/public/artifacts/7bdeffa1-7f79-429b-bb25-f2fb5aa46468" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اكتشف تخصصك الهندسي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a14;
+    --card: #12121f;
+    --border: #1e1e35;
+    --accent: #f5c842;
+    --accent2: #e05c3a;
+    --text: #eaeaf5;
+    --muted: #7070a0;
+    --radius: 16px;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Tajawal’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow-x: hidden;
+}
+
+/* Animated background */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 60% 40% at 20% 20%, rgba(245,200,66,0.06) 0%, transparent 60%),
+radial-gradient(ellipse 50% 60% at 80% 80%, rgba(224,92,58,0.06) 0%, transparent 60%);
+pointer-events: none;
+z-index: 0;
+}
+
+.wrapper {
+position: relative;
+z-index: 1;
+width: 100%;
+max-width: 680px;
+padding: 24px 16px;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ===== INTRO ===== */
+.intro-header {
+text-align: center;
+margin-bottom: 36px;
+}
+
+.gear-icon {
+font-size: 64px;
+display: block;
+margin-bottom: 12px;
+animation: spin-slow 8s linear infinite;
+}
+@keyframes spin-slow {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+
+.intro-title {
+font-size: 2.6rem;
+font-weight: 900;
+line-height: 1.2;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin-bottom: 8px;
+}
+
+.intro-sub {
+color: var(–muted);
+font-size: 1.1rem;
+margin-bottom: 8px;
+}
+
+.intro-desc {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 20px 24px;
+color: var(–muted);
+font-size: 1rem;
+line-height: 1.7;
+margin-bottom: 28px;
+text-align: center;
+}
+
+.intro-desc strong {
+color: var(–accent);
+}
+
+/* ===== BUTTONS ===== */
+.btn-start {
+display: block;
+width: 100%;
+padding: 18px;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+color: #0a0a14;
+font-family: ‘Tajawal’, sans-serif;
+font-size: 1.3rem;
+font-weight: 900;
+border: none;
+border-radius: var(–radius);
+cursor: pointer;
+transition: transform 0.15s, box-shadow 0.15s;
+box-shadow: 0 4px 24px rgba(245,200,66,0.25);
+}
+.btn-start:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 32px rgba(245,200,66,0.35);
+}
+.btn-start:active { transform: translateY(0); }
+
+/* ===== QUIZ SCREEN ===== */
+.quiz-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 24px;
+}
+
+.q-counter {
+font-size: 0.9rem;
+color: var(–muted);
+font-weight: 700;
+}
+
+.progress-bar {
+flex: 1;
+height: 6px;
+background: var(–border);
+border-radius: 99px;
+margin: 0 16px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–accent), var(–accent2));
+border-radius: 99px;
+transition: width 0.4s ease;
+}
+
+.q-score-badge {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 99px;
+padding: 4px 12px;
+font-size: 0.85rem;
+color: var(–accent);
+font-weight: 700;
+}
+
+.question-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 20px;
+padding: 28px 24px 24px;
+margin-bottom: 20px;
+animation: fadeUp 0.35s ease;
+}
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.q-emoji {
+font-size: 2.4rem;
+display: block;
+margin-bottom: 12px;
+text-align: center;
+}
+
+.q-text {
+font-size: 1.25rem;
+font-weight: 700;
+text-align: center;
+line-height: 1.5;
+color: var(–text);
+}
+
+.options-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+.opt-btn {
+background: var(–card);
+border: 2px solid var(–border);
+border-radius: var(–radius);
+padding: 16px 12px;
+color: var(–text);
+font-family: ‘Tajawal’, sans-serif;
+font-size: 0.95rem;
+font-weight: 700;
+cursor: pointer;
+text-align: center;
+transition: all 0.18s;
+line-height: 1.4;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 6px;
+}
+
+.opt-emoji { font-size: 1.6rem; }
+
+.opt-btn:hover {
+border-color: var(–accent);
+background: rgba(245,200,66,0.08);
+transform: translateY(-2px);
+}
+
+.opt-btn.selected {
+border-color: var(–accent);
+background: rgba(245,200,66,0.15);
+}
+
+.opt-btn.correct {
+border-color: #4ade80;
+background: rgba(74,222,128,0.12);
+animation: pulse-green 0.4s ease;
+}
+.opt-btn.wrong {
+border-color: #f87171;
+background: rgba(248,113,113,0.12);
+}
+
+@keyframes pulse-green {
+0% { transform: scale(1); }
+50% { transform: scale(1.04); }
+100% { transform: scale(1); }
+}
+
+.feedback-msg {
+text-align: center;
+font-size: 1rem;
+font-weight: 700;
+padding: 12px;
+border-radius: var(–radius);
+margin-bottom: 12px;
+min-height: 44px;
+}
+
+.feedback-msg.correct { color: #4ade80; }
+.feedback-msg.wrong { color: #f87171; }
+
+.btn-next {
+display: block;
+width: 100%;
+padding: 15px;
+background: var(–accent);
+color: #0a0a14;
+font-family: ‘Tajawal’, sans-serif;
+font-size: 1.1rem;
+font-weight: 900;
+border: none;
+border-radius: var(–radius);
+cursor: pointer;
+transition: all 0.15s;
+display: none;
+}
+.btn-next:hover { background: #fdd55a; }
+
+/* ===== RESULT ===== */
+.result-screen { text-align: center; }
+
+.result-header {
+margin-bottom: 28px;
+animation: fadeUp 0.5s ease;
+}
+
+.result-emoji {
+font-size: 5rem;
+display: block;
+margin-bottom: 12px;
+}
+
+.result-title {
+font-size: 1.1rem;
+color: var(–muted);
+margin-bottom: 8px;
+}
+
+.result-major {
+font-size: 2.4rem;
+font-weight: 900;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin-bottom: 16px;
+}
+
+.result-desc {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 20px;
+font-size: 1rem;
+line-height: 1.8;
+color: #c0c0e0;
+margin-bottom: 20px;
+text-align: right;
+animation: fadeUp 0.6s ease 0.2s both;
+}
+
+.majors-breakdown {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 20px;
+margin-bottom: 24px;
+animation: fadeUp 0.6s ease 0.35s both;
+text-align: right;
+}
+
+.breakdown-title {
+font-size: 1rem;
+font-weight: 700;
+color: var(–muted);
+margin-bottom: 16px;
+text-align: center;
+}
+
+.major-bar-row {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 10px;
+}
+
+.major-bar-label {
+font-size: 0.85rem;
+font-weight: 700;
+width: 80px;
+text-align: right;
+flex-shrink: 0;
+color: var(–text);
+}
+
+.major-bar-track {
+flex: 1;
+height: 10px;
+background: var(–border);
+border-radius: 99px;
+overflow: hidden;
+}
+
+.major-bar-fill {
+height: 100%;
+border-radius: 99px;
+transition: width 1s ease 0.5s;
+width: 0;
+}
+
+.major-bar-val {
+font-size: 0.8rem;
+color: var(–muted);
+width: 30px;
+text-align: left;
+flex-shrink: 0;
+}
+
+.btn-retry {
+display: inline-block;
+padding: 15px 40px;
+background: transparent;
+border: 2px solid var(–accent);
+color: var(–accent);
+font-family: ‘Tajawal’, sans-serif;
+font-size: 1.1rem;
+font-weight: 700;
+border-radius: var(–radius);
+cursor: pointer;
+transition: all 0.15s;
+margin-top: 4px;
+}
+.btn-retry:hover {
+background: var(–accent);
+color: #0a0a14;
+}
+
+/* Score display in result */
+.score-display {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 99px;
+padding: 8px 20px;
+margin-bottom: 16px;
+font-weight: 700;
+font-size: 1rem;
+color: var(–accent);
+}
+
+/* Confetti */
+.confetti-piece {
+position: fixed;
+width: 8px;
+height: 8px;
+border-radius: 2px;
+animation: confetti-fall linear forwards;
+pointer-events: none;
+z-index: 999;
+}
+@keyframes confetti-fall {
+0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+</style>
+
 </head>
 <body>
+<div class="wrapper">
+
+  <!-- INTRO SCREEN -->
+
+  <div class="screen active" id="screen-intro">
+    <div class="intro-header">
+      <span class="gear-icon">⚙️</span>
+      <h1 class="intro-title">اكتشف تخصصك الهندسي!</h1>
+      <p class="intro-sub">جامعة الملك خالد — قسم الهندسة</p>
+    </div>
+    <div class="intro-desc">
+      مرحباً بك! 🎓<br><br>
+      هذه اللعبة تساعدك على اكتشاف <strong>التخصص الهندسي</strong> الأنسب لك
+      من خلال <strong>9 أسئلة</strong> ممتعة.<br><br>
+      اختر الإجابة اللي تعبّر عنك أكثر... ولا تفكر كثير! 😄
+    </div>
+    <button class="btn-start" onclick="startQuiz()">🚀 ابدأ الاختبار!</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+
+  <div class="screen" id="screen-quiz">
+    <div class="quiz-top">
+      <span class="q-counter" id="q-counter">السؤال 1 / 12</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <span class="q-score-badge" id="score-badge">0 / 12</span>
+    </div>
+
+```
+<div class="question-card" id="question-card">
+  <span class="q-emoji" id="q-emoji">🤔</span>
+  <p class="q-text" id="q-text">...</p>
+</div>
+
+<div class="options-grid" id="options-grid"></div>
+<div class="feedback-msg" id="feedback-msg"></div>
+<button class="btn-next" id="btn-next" onclick="nextQuestion()">السؤال التالي ←</button>
+```
+
+  </div>
+
+  <!-- RESULT SCREEN -->
+
+  <div class="screen" id="screen-result">
+    <div class="result-screen">
+      <div class="result-header">
+        <span class="result-emoji" id="result-emoji">🏆</span>
+        <p class="result-title">تخصصك المناسب هو...</p>
+        <h2 class="result-major" id="result-major">...</h2>
+        <div class="score-display" id="result-score">⭐ 0 / 12 إجابة صحيحة</div>
+      </div>
+      <div class="result-desc" id="result-desc">...</div>
+      <div class="majors-breakdown" id="majors-breakdown">
+        <p class="breakdown-title">📊 توزيع ميولك الهندسية</p>
+        <div id="bars-container"></div>
+      </div>
+      <button class="btn-retry" onclick="restartQuiz()">🔄 العب مرة ثانية</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const MAJORS = {
+  mechanical: { label: 'ميكانيكية', emoji: '⚙️', color: '#f5c842' },
+  electrical: { label: 'كهربائية', emoji: '⚡', color: '#60a5fa' },
+  civil: { label: 'مدنية', emoji: '🏗️', color: '#a78bfa' },
+  safety: { label: 'سلامة', emoji: '🦺', color: '#4ade80' },
+  industrial: { label: 'صناعية', emoji: '📊', color: '#fb923c' },
+  chemical: { label: 'كيميائية', emoji: '🧪', color: '#f472b6' },
+  energy: { label: 'طاقة', emoji: '☀️', color: '#34d399' },
+};
+
+const MAJOR_INFO = {
+  mechanical: {
+    desc: 'أنت شخص يحب فهم كيف تعمل الأشياء! الهندسة الميكانيكية مناسبة لك — ستتعلم تصميم المحركات والآلات وأنظمة التبريد والحرارة. مجالك واسع ويشمل الصناعة، السيارات، الطيران، وكثير أكثر.',
+  },
+  electrical: {
+    desc: 'الكهرباء والإلكترونيات تجذبك! الهندسة الكهربائية ستفتح لك عالم الدوائر الكهربائية، الأنظمة الذكية، والاتصالات. كل شيء من حولنا يعمل بالكهرباء — وأنت من يصممه!',
+  },
+  civil: {
+    desc: 'تحب تبني وتخطط للمستقبل! الهندسة المدنية تعلمك كيف تصمم الجسور والطرق والمباني الضخمة. أنت من سيصنع البنية التحتية التي يعيش عليها الناس.',
+  },
+  safety: {
+    desc: 'سلامة الناس تهمك قبل أي شيء! هندسة السلامة تجعلك المسؤول عن حماية العمال والبيئة. مجال نادر ومطلوب جداً في السعودية خاصة في قطاع النفط والصناعة.',
+  },
+  industrial: {
+    desc: 'تحب تنظيم وتحسين الأشياء! الهندسة الصناعية تجمع بين الإنتاج والبشر والأنظمة. ستتعلم كيف تجعل المصانع والشركات أكثر كفاءة وأقل تكلفة — وهذا علم الـ IE!',
+  },
+  chemical: {
+    desc: 'الكيمياء والمواد تثير فضولك! الهندسة الكيميائية تحول المواد الخام إلى منتجات نافعة. من النفط إلى الأدوية إلى البلاستيك — كل هذا يصنعه المهندس الكيميائي.',
+  },
+  energy: {
+    desc: 'مستقبل الطاقة يستهويك! هندسة الطاقة تركز على الطاقة الشمسية، الرياح، والهيدروجين. في ظل رؤية 2030 وتوجه السعودية للطاقة المتجددة، هذا التخصص مستقبله مشرق جداً!',
+  },
+};
+
+const QUESTIONS = [
+  {
+    emoji: '🛠️',
+    text: 'إيش أكثر شيء تحب تسوي في وقت فراغك؟',
+    options: [
+      { emoji: '🔧', text: 'أفك وأركب أشياء', points: { mechanical: 3, industrial: 1 } },
+      { emoji: '💡', text: 'أتلاعب بالإلكترونيات', points: { electrical: 3, energy: 1 } },
+      { emoji: '📐', text: 'أرسم وأخطط مشاريع', points: { civil: 3, industrial: 1 } },
+      { emoji: '🔬', text: 'أجرب تجارب علمية', points: { chemical: 3, safety: 1 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '🎬',
+    text: 'لو شفت فيلم عن مهندس، أي نوع يشدك أكثر؟',
+    options: [
+      { emoji: '🚗', text: 'مهندس سيارات في سباق', points: { mechanical: 3 } },
+      { emoji: '🤖', text: 'مهندس يبرمج روبوت ذكي', points: { electrical: 3 } },
+      { emoji: '🌉', text: 'مهندس يبني جسر ضخم', points: { civil: 3 } },
+      { emoji: '🏭', text: 'مهندس ينقذ مصنع من كارثة', points: { safety: 2, industrial: 1 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '🤔',
+    text: 'لو كان عندك مشكلة في المنزل، كيف تتعامل معها؟',
+    options: [
+      { emoji: '🔩', text: 'أصلحها بنفسي بالأدوات', points: { mechanical: 3 } },
+      { emoji: '📋', text: 'أدرس المشكلة وأخطط الحل', points: { industrial: 3, civil: 1 } },
+      { emoji: '⚠️', text: 'أتأكد إنها آمنة أولاً', points: { safety: 3 } },
+      { emoji: '📊', text: 'أحلل الأسباب وأوثق الحل', points: { industrial: 2, chemical: 1 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '🌍',
+    text: 'أي قضية تهمك أكثر؟',
+    options: [
+      { emoji: '♻️', text: 'حماية البيئة والاستدامة', points: { energy: 3, chemical: 1 } },
+      { emoji: '🏙️', text: 'بناء مدن وبنية تحتية', points: { civil: 3 } },
+      { emoji: '⚡', text: 'الطاقة المتجددة والمستقبل', points: { energy: 3 } },
+      { emoji: '🛡️', text: 'سلامة الناس والعمال', points: { safety: 3 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '📚',
+    text: 'أي مادة تعشقها في الثانوية؟',
+    options: [
+      { emoji: '🧮', text: 'الرياضيات والفيزياء', points: { mechanical: 2, electrical: 2, civil: 1 } },
+      { emoji: '🔌', text: 'الفيزياء والكهرباء', points: { electrical: 3, energy: 1 } },
+      { emoji: '🧪', text: 'الكيمياء والأحياء', points: { chemical: 3, energy: 1 } },
+      { emoji: '📊', text: 'الإحصاء والاقتصاد', points: { industrial: 3 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '🏆',
+    text: 'أي إنجاز يفخرك أكثر؟',
+    options: [
+      { emoji: '🚀', text: 'أصمم محرك جديد', points: { mechanical: 3 } },
+      { emoji: '🌐', text: 'أبني نظام كهربائي ذكي', points: { electrical: 3 } },
+      { emoji: '🏗️', text: 'أصمم ناطحة سحاب', points: { civil: 3 } },
+      { emoji: '🌿', text: 'أوجد مصدر طاقة نظيف', points: { energy: 3 } },
+    ],
+    correct: null,
+  },
+  {
+    emoji: '💼',
+    text: 'في بيئة العمل، أنت الشخص اللي...',
+    options: [
+      { emoji: '🔍', text: 'يراجع كل شيء ويتأكد من السلامة', points: { safety: 3, industrial: 1 } },
+      { emoji: '⚡', text: 'يحل مشاكل الأنظمة بسرعة', points: { electrical: 3 } },
+      { emoji: '📈', text: 'يحلل البيانات ويحسن الإنتاج', points: { industrial: 3 } },
+      { emoji: '🧱', text: 'يتأكد أن كل شيء مبني صح', points: { civil: 3 } },
+    ],
+    correct: null,
+  },
+
+  {
+    emoji: '🧠',
+    text: 'أي نوع من التفكير يناسبك أكثر؟',
+    options: [
+      { emoji: '📐', text: 'تفكير هندسي ورسوم تقنية', points: { civil: 2, mechanical: 2 } },
+      { emoji: '⚗️', text: 'تفكير تحليلي وكيميائي', points: { chemical: 3 } },
+      { emoji: '💻', text: 'تفكير تقني وبرمجي', points: { electrical: 2, industrial: 1 } },
+      { emoji: '🗂️', text: 'تفكير منظم وإداري', points: { industrial: 3, safety: 1 } },
+    ],
+    correct: null,
+  },
+
+  {
+    emoji: '🌟',
+    text: 'لو ما فيه قيود، أي مشروع تبي تشتغل عليه؟',
+    options: [
+      { emoji: '🚂', text: 'قطار فائق السرعة', points: { mechanical: 2, civil: 2 } },
+      { emoji: '🌞', text: 'محطة طاقة شمسية عملاقة', points: { energy: 3 } },
+      { emoji: '🏙️', text: 'مدينة ذكية متكاملة', points: { civil: 2, electrical: 1, industrial: 1 } },
+      { emoji: '🧬', text: 'مصنع أدوية متطور', points: { chemical: 3 } },
+    ],
+    correct: null,
+  },
+
+];
+
+let currentQ = 0;
+let scores = {};
+let totalScore = 0;
+let answered = false;
+
+function initScores() {
+  scores = {};
+  for (const k of Object.keys(MAJORS)) scores[k] = 0;
+}
+
+function startQuiz() {
+  initScores();
+  currentQ = 0;
+  totalScore = 0;
+  answered = false;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  answered = false;
+
+  document.getElementById('q-counter').textContent = `السؤال ${currentQ + 1} / ${QUESTIONS.length}`;
+  document.getElementById('progress-fill').style.width = `${(currentQ / QUESTIONS.length) * 100}%`;
+  document.getElementById('score-badge').textContent = `${totalScore} / ${QUESTIONS.length}`;
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('feedback-msg').textContent = '';
+  document.getElementById('feedback-msg').className = 'feedback-msg';
+  document.getElementById('btn-next').style.display = 'none';
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-emoji">${opt.emoji}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(idx);
+    grid.appendChild(btn);
+  });
+
+  // Animate card
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = 'fadeUp 0.35s ease'; });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const btns = document.querySelectorAll('.opt-btn');
+  const feedbackEl = document.getElementById('feedback-msg');
+
+  btns[idx].classList.add('selected');
+
+  if (q.trivia) {
+    if (idx === q.correct) {
+      btns[idx].classList.add('correct');
+      feedbackEl.textContent = '✅ إجابة صحيحة! أحسنت 🎉';
+      feedbackEl.classList.add('correct');
+      totalScore++;
+    } else {
+      btns[idx].classList.add('wrong');
+      btns[q.correct].classList.add('correct');
+      feedbackEl.textContent = '❌ الإجابة الصحيحة هي: ' + q.options[q.correct].text;
+      feedbackEl.classList.add('wrong');
+    }
+  } else {
+    // personality question — always "correct"
+    btns[idx].classList.add('correct');
+    feedbackEl.textContent = '👍 تم تسجيل إجابتك!';
+    feedbackEl.classList.add('correct');
+    totalScore++;
+    // Add points
+    const pts = q.options[idx].points;
+    for (const [k, v] of Object.entries(pts)) {
+      if (scores[k] !== undefined) scores[k] += v;
+    }
+  }
+
+  document.getElementById('btn-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= QUESTIONS.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  showScreen('result');
+  document.getElementById('progress-fill').style.width = '100%';
+
+  // Find top major
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const topKey = sorted[0][0];
+  const topMajor = MAJORS[topKey];
+  const info = MAJOR_INFO[topKey];
+
+  document.getElementById('result-emoji').textContent = topMajor.emoji;
+  document.getElementById('result-major').textContent = 'هندسة ' + topMajor.label;
+  document.getElementById('result-score').textContent = `⭐ ${totalScore} / ${QUESTIONS.length} إجابة صحيحة`;
+  document.getElementById('result-desc').textContent = info.desc;
+
+  // Bars
+  const barsContainer = document.getElementById('bars-container');
+  barsContainer.innerHTML = '';
+  const maxVal = sorted[0][1] || 1;
+
+  for (const [key, val] of sorted) {
+    const m = MAJORS[key];
+    const pct = Math.round((val / maxVal) * 100);
+    const row = document.createElement('div');
+    row.className = 'major-bar-row';
+    row.innerHTML = `
+      <span class="major-bar-label">${m.emoji} ${m.label}</span>
+      <div class="major-bar-track">
+        <div class="major-bar-fill" id="bar-${key}" style="background:${m.color}; width:0%"></div>
+      </div>
+      <span class="major-bar-val">${pct}%</span>
+    `;
+    barsContainer.appendChild(row);
+  }
+
+  // Animate bars after a tick
+  setTimeout(() => {
+    for (const [key, val] of sorted) {
+      const pct = Math.round((val / maxVal) * 100);
+      const bar = document.getElementById('bar-' + key);
+      if (bar) bar.style.width = pct + '%';
+    }
+  }, 200);
+
+  // Confetti
+  if (totalScore >= 8) spawnConfetti();
+}
+
+function spawnConfetti() {
+  const colors = ['#f5c842','#e05c3a','#4ade80','#60a5fa','#f472b6'];
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = '0s';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }, i * 60);
+  }
+}
+
+function restartQuiz() {
+  startQuiz();
+}
+</script>
+
 </body>
 </html>
